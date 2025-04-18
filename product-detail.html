@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail | ShopEasy</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/product-detail.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">ShopEasy</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="cart-btn" id="cartToggle">Cart (<span id="cartCount">0</span>)</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="product-detail-section">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> &gt;
+                    <a href="products.html">Products</a> &gt;
+                    <span>Product Detail</span>
+                </div>
+
+                <div class="product-detail" id="productDetail">
+                    <!-- Product will be loaded via JavaScript -->
+                </div>
+
+                <div class="related-products">
+                    <h2>You May Also Like</h2>
+                    <div class="product-grid" id="relatedProducts">
+                        <!-- Related products will be loaded via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 ShopEasy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be loaded via JavaScript -->
+        </div>
+        <div class="cart-total">
+            <p>Total: $<span id="cartTotal">0.00</span></p>
+            <a href="cart.html" class="btn">Checkout</a>
+        </div>
+    </aside>
+
+    <script src="js/main.js"></script>
+    <script src="js/product-detail.js"></script>
+</body>
+
+</html>
