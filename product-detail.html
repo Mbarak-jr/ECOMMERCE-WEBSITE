@@ -7,12 +7,16 @@
     <title>Product Detail | ShopEasy</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/product-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
     <header class="header">
         <div class="container">
-            <a href="index.html" class="logo">ShopEasy</a>
+            <a href="index.html" class="logo">
+                <i class="fas fa-shopping-bag logo-icon"></i>
+                ShopEasy
+            </a>
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -21,7 +25,10 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
-            <button class="cart-btn" id="cartToggle">Cart (<span id="cartCount">0</span>)</button>
+            <button class="cart-btn" id="cartToggle">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </button>
         </div>
     </header>
 
@@ -31,7 +38,8 @@
                 <div class="breadcrumb">
                     <a href="index.html">Home</a> &gt;
                     <a href="products.html">Products</a> &gt;
-                    <span>Product Detail</span>
+                    <span id="productCategory">Category</span> &gt;
+                    <span id="productName">Product Name</span>
                 </div>
 
                 <div class="product-detail" id="productDetail">
@@ -50,14 +58,31 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2023 ShopEasy. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ShopEasy</h3>
+                    <p>Your one-stop shop for quality products at affordable prices.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ShopEasy. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <!-- Cart Sidebar -->
     <aside class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Your Cart</h3>
+            <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
             <button class="close-cart" id="closeCart">&times;</button>
         </div>
         <div class="cart-items" id="cartItems">
@@ -68,6 +93,7 @@
             <a href="cart.html" class="btn">Checkout</a>
         </div>
     </aside>
+    <div class="cart-overlay" id="cartOverlay"></div>
 
     <script src="js/main.js"></script>
     <script src="js/product-detail.js"></script>

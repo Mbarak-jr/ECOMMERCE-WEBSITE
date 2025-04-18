@@ -40,30 +40,14 @@ const featuredProducts = [
     }
 ];
 
-// Cart functionality
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-// DOM Elements
-const cartToggle = document.getElementById('cartToggle');
-const closeCart = document.getElementById('closeCart');
-const cartSidebar = document.getElementById('cartSidebar');
-const cartItems = document.getElementById('cartItems');
-const cartCount = document.getElementById('cartCount');
-const cartTotal = document.getElementById('cartTotal');
-const featuredProductsContainer = document.getElementById('featuredProducts');
-
-// Toggle Cart
-cartToggle.addEventListener('click', () => {
-    cartSidebar.classList.add('active');
-    renderCartItems();
-});
-
-closeCart.addEventListener('click', () => {
-    cartSidebar.classList.remove('active');
+document.addEventListener('DOMContentLoaded', () => {
+    renderFeaturedProducts();
+    setupHeaderScroll();
 });
 
 // Render featured products
 function renderFeaturedProducts() {
+    const featuredProductsContainer = document.getElementById('featuredProducts');
     if (!featuredProductsContainer) return;
     
     featuredProductsContainer.innerHTML = featuredProducts.map(product => `
@@ -83,7 +67,7 @@ function renderFeaturedProducts() {
                     <span class="rating-count">(${Math.floor(Math.random() * 100) + 20})</span>
                 </div>
                 <p class="product-price">$${product.price.toFixed(2)}</p>
-                <button class="add-to-cart" data-id="${product.id}">
+                <button class="add-to-cart-btn" data-id="${product.id}">
                     <i class="fas fa-cart-plus"></i> Add to Cart
                 </button>
             </div>
@@ -91,9 +75,9 @@ function renderFeaturedProducts() {
     `).join('');
     
     // Add event listeners to add-to-cart buttons
-    document.querySelectorAll('.add-to-cart').forEach(button => {
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', (e) => {
-            const productId = parseInt(e.target.getAttribute('data-id'));
+            const productId = parseInt(button.getAttribute('data-id'));
             addToCart(productId);
         });
     });
@@ -117,128 +101,16 @@ function generateStarRating(rating) {
     return stars;
 }
 
-// Add to cart function
-function addToCart(productId) {
-    const product = featuredProducts.find(p => p.id === productId);
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            ...product,
-            quantity: 1
-        });
-    }
-    
-    updateCart();
-    renderCartItems();
-    
-    // Show feedback
-    const button = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
-    if (button) {
-        button.innerHTML = '<i class="fas fa-check"></i> Added!';
-        button.style.backgroundColor = '#28a745';
-        setTimeout(() => {
-            button.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
-            button.style.backgroundColor = '';
-        }, 2000);
-    }
-}
-
-// Update cart in localStorage and UI
-function updateCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
-    calculateTotal();
-}
-
-// Calculate cart total
-function calculateTotal() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartTotal.textContent = total.toFixed(2);
-}
-
-// Render cart items
-function renderCartItems() {
-    if (!cartItems) return;
-    
-    cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-details">
-                <h4 class="cart-item-title">${item.name}</h4>
-                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
-                <div class="cart-item-quantity">
-                    <button class="quantity-btn minus" data-id="${item.id}">-</button>
-                    <span class="quantity-value">${item.quantity}</span>
-                    <button class="quantity-btn plus" data-id="${item.id}">+</button>
-                </div>
-                <button class="remove-item" data-id="${item.id}">Remove</button>
-            </div>
-        </div>
-    `).join('');
-    
-    // Add event listeners to quantity buttons
-    document.querySelectorAll('.quantity-btn.minus').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            updateQuantity(productId, -1);
-        });
-    });
-    
-    document.querySelectorAll('.quantity-btn.plus').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            updateQuantity(productId, 1);
-        });
-    });
-    
-    // Add event listeners to remove buttons
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            removeFromCart(productId);
-        });
-    });
-    
-    calculateTotal();
-}
-
-// Update item quantity
-function updateQuantity(productId, change) {
-    const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity += change;
-        
-        if (item.quantity <= 0) {
-            cart = cart.filter(item => item.id !== productId);
-        }
-        
-        updateCart();
-        renderCartItems();
-    }
-}
-
-// Remove item from cart
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    updateCart();
-    renderCartItems();
-}
-
-// Initialize the page
-document.addEventListener('DOMContentLoaded', () => {
-    renderFeaturedProducts();
-    updateCart();
-    
-    // Header scroll effect
+// Header scroll effect
+function setupHeaderScroll() {
     const header = document.getElementById('mainHeader');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-});
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    }
+}

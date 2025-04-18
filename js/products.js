@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 filteredProducts.sort((a, b) => b.rating - a.rating);
                 break;
             default:
-                // Default sorting (by ID or original order)
                 filteredProducts.sort((a, b) => a.id - b.id);
         }
         
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="product-detail.html?id=${product.id}">
                         <img src="${product.image}" alt="${product.name}" class="product-image">
                     </a>
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    ${product.badge ? `<span class="product-badge ${product.badge.toLowerCase()}">${product.badge}</span>` : ''}
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="rating-count">(${Math.floor(Math.random() * 100) + 20})</span>
                     </div>
                     <p class="product-price">$${product.price.toFixed(2)}</p>
-                    <button class="add-to-cart" data-id="${product.id}">
+                    <button class="add-to-cart-btn" data-id="${product.id}">
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
                 </div>
@@ -189,10 +188,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
         
         // Add event listeners to add-to-cart buttons
-        document.querySelectorAll('.add-to-cart').forEach(button => {
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
             button.addEventListener('click', (e) => {
-                const productId = parseInt(e.target.getAttribute('data-id'));
-                addToCart(productId);
+                const productId = parseInt(button.getAttribute('data-id'));
+                const product = allProducts.find(p => p.id === productId);
+                if (product) {
+                    addToCart(productId, product);
+                }
             });
         });
     }
